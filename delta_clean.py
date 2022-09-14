@@ -3,3 +3,7 @@
 
 # this is a change made in pycharm 16:22
 # Another change in PyCharm
+
+# .md is markdown language filetype used for the readme file
+# open/write in notepad++
+#Just checking we're connected '
