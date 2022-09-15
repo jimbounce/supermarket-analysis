@@ -5,6 +5,7 @@ Author: Nigel Cooksley BEng PGCE
 
 Contact: njcooksley@live.co.uk
 LinkedIn Profile: www.linkedin.com/in/nigel-cooksley-bristol
+github.com/jimbounce
 
 """
 
