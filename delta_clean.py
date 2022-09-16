@@ -31,20 +31,20 @@ def main():
     df = pd.read_csv("Supermarket Dataset.csv", header=0)
 
     # Describing the data
-    print("\nNumber of rows and columns: ", df.shape, "\n")
+    # print("\nNumber of rows and columns: ", df.shape, "\n")
     print("df...first and last 5 rows. \n", df)
-    print("\n\ndf.describe()\n", df.describe())     # Basic statistical measures of each column
-    print("\n")
+    # print("\n\ndf.describe()\n", df.describe())     # Basic statistical measures of each column
+    # print("\n")
     #print("Datatypes of each column:\n", df.dtypes)  # data types of each attribute
 
     # Totals of each column
     print("\n")
-    gender_counts = df["Gender"].value_counts();
+    #gender_counts = df["Gender"].value_counts();
     #print('gender counts:', gender_counts)  # Ordered no. of occuraences of each value
 
     # Identifying number of unique values in each column
-    for col in df.columns:
-        print("Unique values of column", col, "are: ", df[col].nunique())
+    # for col in df.columns:
+    #     print("Unique values of column", col, "are: ", df[col].nunique())
 
     # Checking for missing values
     #print("\ndf.count():\n", df.count())   # Counts number of entries in each column
@@ -61,7 +61,32 @@ def main():
     #print("\n\nColumns as a list: \n", df.columns, '\n')  # column names as a list
 
    # Do 'tax 5%' and 'gross income' columns have the same values?
-    print("equal?", df["Tax 5%"].equals(df["gross income"]))   # Suspecting equal columns
+    #print("equal?", df["Tax 5%"].equals(df["gross income"]))   # Suspecting equal columns
+
+    # Re-formatting the "Date" column
+
+    # Changing date from string to pandas datestamp format - no good!
+    # df.dtypes['Date'] = pd.to_datetime(df['Date'])
+    # print(df)
+
+
+    for date in df["Date"]:
+        if date[0] != "0":    # not equal to the string zero not the integer zero
+            date = "0" + date
+        #print(date)
+        monthday = date[:5].split("/")
+        month = int(monthday[0])
+        day = int(monthday[1])
+        daynum =
+        print(month, day)
+
+    #dow = strftime()
+
+
+
+    # Which date were there no sales? 89 unique data values out of 90 days 1 Jan to 31 Mar.
+
+
 
 if __name__ == "__main__":
     main()
