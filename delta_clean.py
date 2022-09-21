@@ -1,11 +1,22 @@
-
 """
-Created: 14th September 2022
+
+This is free software: you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version. It is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+the code.  If not, see <http://www.gnu.org/licenses/>.
+
+File name: 	delta_clean.py
+Created: 11th July 2022
 Author: Nigel Cooksley BEng PGCE
 
 Contact: njcooksley@live.co.uk
 LinkedIn Profile: www.linkedin.com/in/nigel-cooksley-bristol
-github.com/jimbounce
+github profile: github.com/jimbounce
 
 """
 
@@ -106,16 +117,16 @@ def main():
 
     print(df2.describe(), "\n")
 
-    # Plotting total sales in each of 89 days
-    import matplotlib.pyplot as plt
-    plt.figure()
-    plt.scatter(df2["Daynum"], df2["Total"])
-    plt.title("Scatter plot")
-    plt.xlabel("Day number")
-    plt.ylabel("Total Sales")
-    plt.xlim([0, 90])
-    plt.ylim([0, 7600])  ## Highest value of total is 1042.65
-    plt.show()
+    # Plotting total sales in each of 89 days (not for presentation)
+    # import matplotlib.pyplot as plt
+    # plt.figure()
+    # plt.scatter(df2["Daynum"], df2["Total"])
+    # plt.title("Scatter plot")
+    # plt.xlabel("Day number")
+    # plt.ylabel("Total Sales")
+    # plt.xlim([0, 90])
+    # plt.ylim([0, 7600])  ## Highest value of total is 1042.65
+    # plt.show()
 
     # Arranging into days of the week total sales
     # Categorizing day numbers into 7 days of the week (1st Jan 2019 was a Tues)
@@ -198,6 +209,7 @@ def main():
 
     print("\ndf4\n", df4)
 
+    # Plotting weekly performance throughout the time period of 3 months
     import matplotlib.pyplot as plt
     #plt.figure()
     plt.bar(df4["Season"], df4["Total"])
@@ -216,7 +228,7 @@ def main():
 
 
 
-     ######  Machine Learning - which algorithm?   ######
+
 
 
 
