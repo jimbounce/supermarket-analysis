@@ -20,8 +20,7 @@ github profile: github.com/jimbounce
 
 """
 
-import numpy as np
-import pandas as pd
+
 
 def main():
     """
@@ -34,6 +33,15 @@ def main():
     Rating scale of 1 to 10
 
     """
+
+    import seaborn as sns
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from sklearn.metrics import confusion_matrix
+    from sklearn.tree import DecisionTreeClassifier
+    from sklearn.model_selection import train_test_split
+    from sklearn import metrics
+
     # Setting workspace
     pd.set_option('display.width', 1200)  # These two lines so all columns are printed in output
     pd.set_option('display.max_columns', 100)
@@ -79,10 +87,6 @@ def main():
     #print("equal?", df["Tax 5%"].equals(df["gross income"]))   # Suspecting equal columns
 
     # Re-formatting the "Date" column
-
-
-
-
     # Converting date to number 1-90
     daynum_list = []
     for date in df["Date"]:
@@ -195,8 +199,10 @@ def main():
     print("\nLength of season list", len(seasonlist))
 
     df["Season"] = seasonlist
+    df.drop(["Invoice ID", "Unit price", "Quantity", "Tax 5%", "Time", \
+    "cogs", "gross margin percentage", "gross income", "Rating"], axis = 1, inplace = True)
     print(df.head())
-
+    print(df.columns)
     df4 = df.groupby(by = "Season", as_index=False)["Total"].sum()
 
     # Standardizing values so all 7-day (not 8 day) week categories
@@ -210,26 +216,233 @@ def main():
     print("\ndf4\n", df4)
 
     # Plotting weekly performance throughout the time period of 3 months
-    import matplotlib.pyplot as plt
+
     #plt.figure()
-    plt.bar(df4["Season"], df4["Total"])
-    plt.title("Comparing Sales in 12 weeks of January - March 2019")
-    plt.xlabel("Week of the season")
-    plt.ylabel("Total Sales")
-    # plt.xlim([0, 7])
-    plt.ylim([0, 40000])  ## Highest value of total is .....
-    plt.show()
+    # plt.bar(df4["Season"], df4["Total"])
+    # plt.title("Comparing Sales in 12 weeks of January - March 2019")
+    # plt.xlabel("Week of the season")
+    # plt.ylabel("Total Sales - Myanmar Kyat")
+    # # plt.xlim([0, 7])
+    # plt.ylim([0, 40000])  ## Highest value of total is .....
+    # plt.show()
+
+    # # # PairPlot to choose features
+
+    # sns.pairplot(data=df[['Branch', 'City', 'Customer type', 'Gender', 'Product line', 'Total',
+    #                         'Date', 'Payment', 'Daynum', 'dow', 'Season']],
+    #             hue='Total', dropna=True, height=3)
+    # plt.show()
+
+    #
+    # #######################
+    # # Decision Tree Algorithm (DT can be used for regression or classification)
+    # #######################  #
+
+    #
+
+    #
+    # # Visualisation
+    #
+    # plt.figure()
+    # y_test = y_test.to_numpy()
+    # plt.plot(y_test, label='Actual')
+    # plt.plot(y_pred, label='Predicted')
+    # plt.tick_params(labelsize=16)
+    # plt.legend(loc='best', prop={'size': 20})
+    # plt.xticks(fontsize=16)
+    # plt.yticks(fontsize=16)
+    # plt.text(250, 1.1, r'1-', fontsize=20)
+    # plt.legend(loc='best', prop={'size': 20})
+    # plt.ylabel('1: Diabetic, 2-Non-Diabetic', fontsize=16)
+    # plt.xlabel('Number of Patients', fontsize=16)
+    # plt.show()
+
+    # Adding 7 columns to 'numericize' days of the week eg. Sat = 1 0 0 0 0 0 0, Sun = 0 1 0 0 0 0 0, ...
+
+    df5 = df[["dow", "Season", "Total"]]
+
+    satlist = []
+    for day in df5["dow"]:
+        if day == "Sat":
+            satlist.append(int(1))
+        else:
+            satlist.append(int(0))
+    df5["dowsat"] = satlist
+
+    sunlist = []
+    for day in df5["dow"]:
+        if day == "Sun":
+            sunlist.append(int(1))
+        else:
+            sunlist.append(int(0))
+    df5["dowsun"] = sunlist
+
+    monlist = []
+    for day in df5["dow"]:
+        if day == "Mon":
+            monlist.append(int(1))
+        else:
+            monlist.append(int(0))
+    df5["dowmon"] = monlist
+
+    tuelist = []
+    for day in df5["dow"]:
+        if day == "Tue":
+            tuelist.append(int(1))
+        else:
+            tuelist.append(int(0))
+    df5["dowtue"] = tuelist
+
+    wedlist = []
+    for day in df5["dow"]:
+        if day == "Wed":
+            wedlist.append(int(1))
+        else:
+            wedlist.append(int(0))
+    df5["dowwed"] = wedlist
+
+    thulist = []
+    for day in df5["dow"]:
+        if day == "Thu":
+            thulist.append(int(1))
+        else:
+            thulist.append(int(0))
+    df5["dowthu"] = thulist
+
+    frilist = []
+    for day in df5["dow"]:
+        if day == "Fri":
+            frilist.append(int(1))
+        else:
+            frilist.append(int(0))
+    df5["dowfri"] = frilist
+
+
+    # Adding 12 columns to represent 12 weeks of the season as numbers eg. f1 = 000010000000, m4 = 000000000001
+    aj1list = []
+    for week in df5["Season"]:
+        if week == "aj1":
+            aj1list.append(int(1))
+        else:
+            aj1list.append(int(0))
+    df5["aj1"] = aj1list
+
+    aj2list = []
+    for week in df5["Season"]:
+        if week == "aj2":
+            aj2list.append(int(1))
+        else:
+            aj2list.append(int(0))
+    df5["aj2"] = aj2list
+
+    aj3list = []
+    for week in df5["Season"]:
+        if week == "aj3":
+            aj3list.append(int(1))
+        else:
+            aj3list.append(int(0))
+    df5["aj3"] = aj3list
+
+    aj4list = []
+    for week in df5["Season"]:
+        if week == "aj4":
+            aj4list.append(int(1))
+        else:
+            aj4list.append(int(0))
+    df5["aj4"] = aj4list
+
+    f1list = []
+    for week in df5["Season"]:
+        if week == "f1":
+            f1list.append(int(1))
+        else:
+            f1list.append(int(0))
+    df5["f1"] = f1list
+
+    f2list = []
+    for week in df5["Season"]:
+        if week == "f2":
+            f2list.append(int(1))
+        else:
+            f2list.append(int(0))
+    df5["f2"] = f2list
+
+    f3list = []
+    for week in df5["Season"]:
+        if week == "f3":
+            f3list.append(int(1))
+        else:
+            f3list.append(int(0))
+    df5["f3"] = f3list
+
+    f4list = []
+    for week in df5["Season"]:
+        if week == "f4":
+            f4list.append(int(1))
+        else:
+            f4list.append(int(0))
+    df5["f4"] = f4list
+
+    m1list = []
+    for week in df5["Season"]:
+        if week == "m1":
+            m1list.append(int(1))
+        else:
+            m1list.append(int(0))
+    df5["m1"] = m1list
+
+    m2list = []
+    for week in df5["Season"]:
+        if week == "m2":
+            m2list.append(int(1))
+        else:
+            m2list.append(int(0))
+    df5["m2"] = m2list
+
+    m3list = []
+    for week in df5["Season"]:
+        if week == "m3":
+            m3list.append(int(1))
+        else:
+            m3list.append(int(0))
+    df5["m3"] = m3list
+
+    m4list = []
+    for week in df5["Season"]:
+        if week == "m4":
+            m4list.append(int(1))
+        else:
+            m4list.append(int(0))
+    df5["m4"] = m4list
+
+    print("df5 head\n ", df5.head(100))
+
+    feature_cols = ["dowsat", "dowsun", "dowmon", "dowtue", "dowwed", "dowthu", "dowfri", "aj1", "aj2", "aj3", "aj4", \
+                    "f1", "f2", "f3", "f4", "m1", "m2", "m3", "m4"]
+    X = df5[feature_cols]
+    y = df5['Total']
+
+    # Splitting into training and test data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+
+    # Creating the deploying the model
+    model = DecisionTreeClassifier()
+    model = model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+
+    # Accuracy
+    accuracy = metrics.accuracy_score(y_test, y_pred) * 100
+    print('DT Accuracy is: ', accuracy)
 
 
 
 
-
-    # Which date were there no sales? 89 unique data values out of 90 days 1 Jan to 31 Mar.
-
-
-
-
-
+    # Feature correlation from line 227    (only daynum and total are numerical so can only measure their correlation
+    # df_CORR = df.loc[:, ['Total', 'Daynum']]
+    # corr_matrix = df_CORR.corr()
+    # print(corr_matrix)
+    # sns.heatmap(corr_matrix, annot=True)
+    # plt.show()
 
 
 
