@@ -119,18 +119,22 @@ def main():
     print("type of df2", type(df2))    # pandas.core.series.Series
     print("type of df ", type(df), "\n")     # whereas df is a :    pandas.core.frame.DataFrame
 
-    print(df2.describe(), "\n")
+    # Finding the best performing day
+    print("df2 describe\n", df2.describe(), "\n")
+    print("\nmaxday is ")
+    print(df2[df2.Total == df2.Total.max()])
+
 
     # Plotting total sales in each of 89 days (not for presentation)
-    # import matplotlib.pyplot as plt
-    # plt.figure()
-    # plt.scatter(df2["Daynum"], df2["Total"])
-    # plt.title("Scatter plot")
-    # plt.xlabel("Day number")
-    # plt.ylabel("Total Sales")
-    # plt.xlim([0, 90])
-    # plt.ylim([0, 7600])  ## Highest value of total is 1042.65
-    # plt.show()
+    import matplotlib.pyplot as plt
+    plt.figure()
+    plt.scatter(df2["Daynum"], df2["Total"])
+    plt.title("Scatter plot")
+    plt.xlabel("Day number")
+    plt.ylabel("Total Sales")
+    plt.xlim([0, 90])
+    plt.ylim([0, 7600])  ## Highest value of total is 1042.65
+    plt.show()
 
     # Arranging into days of the week total sales
     # Categorizing day numbers into 7 days of the week (1st Jan 2019 was a Tues)
@@ -217,45 +221,21 @@ def main():
 
     # Plotting weekly performance throughout the time period of 3 months
 
-    #plt.figure()
-    # plt.bar(df4["Season"], df4["Total"])
-    # plt.title("Comparing Sales in 12 weeks of January - March 2019")
-    # plt.xlabel("Week of the season")
-    # plt.ylabel("Total Sales - Myanmar Kyat")
-    # # plt.xlim([0, 7])
-    # plt.ylim([0, 40000])  ## Highest value of total is .....
-    # plt.show()
+    plt.figure()
+    plt.bar(df4["Season"], df4["Total"])
+    plt.title("Comparing Sales in 12 weeks of January - March 2019")
+    plt.xlabel("Week of the season")
+    plt.ylabel("Total Sales - Myanmar Kyat")
+    # plt.xlim([0, 7])
+    plt.ylim([0, 40000])  ## Highest value of total is .....
+    plt.show()
 
-    # # # PairPlot to choose features
+    # # PairPlot to choose features
 
-    # sns.pairplot(data=df[['Branch', 'City', 'Customer type', 'Gender', 'Product line', 'Total',
-    #                         'Date', 'Payment', 'Daynum', 'dow', 'Season']],
-    #             hue='Total', dropna=True, height=3)
-    # plt.show()
-
-    #
-    # #######################
-    # # Decision Tree Algorithm (DT can be used for regression or classification)
-    # #######################  #
-
-    #
-
-    #
-    # # Visualisation
-    #
-    # plt.figure()
-    # y_test = y_test.to_numpy()
-    # plt.plot(y_test, label='Actual')
-    # plt.plot(y_pred, label='Predicted')
-    # plt.tick_params(labelsize=16)
-    # plt.legend(loc='best', prop={'size': 20})
-    # plt.xticks(fontsize=16)
-    # plt.yticks(fontsize=16)
-    # plt.text(250, 1.1, r'1-', fontsize=20)
-    # plt.legend(loc='best', prop={'size': 20})
-    # plt.ylabel('1: Diabetic, 2-Non-Diabetic', fontsize=16)
-    # plt.xlabel('Number of Patients', fontsize=16)
-    # plt.show()
+    sns.pairplot(data=df[['Branch', 'City', 'Customer type', 'Gender', 'Product line', 'Total',
+                            'Date', 'Payment', 'Daynum', 'dow', 'Season']],
+                hue='Total', dropna=True, height=3)
+    plt.show()
 
     # Adding 7 columns to 'numericize' days of the week eg. Sat = 1 0 0 0 0 0 0, Sun = 0 1 0 0 0 0 0, ...
 
@@ -268,7 +248,6 @@ def main():
         else:
             satlist.append(int(0))
     df5["dowsat"] = satlist
-
     sunlist = []
     for day in df5["dow"]:
         if day == "Sun":
@@ -276,7 +255,6 @@ def main():
         else:
             sunlist.append(int(0))
     df5["dowsun"] = sunlist
-
     monlist = []
     for day in df5["dow"]:
         if day == "Mon":
@@ -284,7 +262,6 @@ def main():
         else:
             monlist.append(int(0))
     df5["dowmon"] = monlist
-
     tuelist = []
     for day in df5["dow"]:
         if day == "Tue":
@@ -292,7 +269,6 @@ def main():
         else:
             tuelist.append(int(0))
     df5["dowtue"] = tuelist
-
     wedlist = []
     for day in df5["dow"]:
         if day == "Wed":
@@ -300,7 +276,6 @@ def main():
         else:
             wedlist.append(int(0))
     df5["dowwed"] = wedlist
-
     thulist = []
     for day in df5["dow"]:
         if day == "Thu":
@@ -308,7 +283,6 @@ def main():
         else:
             thulist.append(int(0))
     df5["dowthu"] = thulist
-
     frilist = []
     for day in df5["dow"]:
         if day == "Fri":
@@ -417,22 +391,11 @@ def main():
 
     print("df5 head\n ", df5.head(100))
 
-    feature_cols = ["dowsat", "dowsun", "dowmon", "dowtue", "dowwed", "dowthu", "dowfri", "aj1", "aj2", "aj3", "aj4", \
-                    "f1", "f2", "f3", "f4", "m1", "m2", "m3", "m4"]
-    X = df5[feature_cols]
-    y = df5['Total']
 
-    # Splitting into training and test data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
-    # Creating the deploying the model
-    model = DecisionTreeClassifier()
-    model = model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
+    #df5.to_csv("DeltaML.csv")
 
-    # Accuracy
-    accuracy = metrics.accuracy_score(y_test, y_pred) * 100
-    print('DT Accuracy is: ', accuracy)
+
 
 
 

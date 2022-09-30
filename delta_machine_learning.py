@@ -22,10 +22,31 @@ github profile: github.com/jimbounce
 
 def main():
     """
-
-
+Supervised learning Machine Learning algorithm to predict busiest business day between Jan 1st 2020 and Mar
+31st 2020 using training and test data from the same time period in 2019.
 
     """
+    import pandas as pd
+    df5 = pd.read_csv("DeltaML.csv", header=0)
+    print(df5.info())
+
+    # The ML Model
+    feature_cols = ["dowsat", "dowsun", "dowmon", "dowtue", "dowwed", "dowthu", "dowfri", "aj1", "aj2", "aj3", "aj4", \
+                    "f1", "f2", "f3", "f4", "m1", "m2", "m3", "m4"]
+    X = df5[feature_cols]
+    y = df5['Total']
+
+    # Splitting into training and test data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+
+    # Creating the deploying the model
+    model = DecisionTreeClassifier()
+    model = model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+
+    # Accuracy
+    accuracy = metrics.accuracy_score(y_test, y_pred) * 100
+    print('DT Accuracy is: ', accuracy)
 
 if __name__ == "__main__":
     main()
@@ -37,4 +58,3 @@ if __name__ == "__main__":
 
 
 
- ######  Machine Learning - which algorithm?   ######
