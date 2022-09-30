@@ -36,11 +36,7 @@ def main():
 
     import seaborn as sns
     import pandas as pd
-    import matplotlib.pyplot as plt
-    from sklearn.metrics import confusion_matrix
-    from sklearn.tree import DecisionTreeClassifier
-    from sklearn.model_selection import train_test_split
-    from sklearn import metrics
+
 
     # Setting workspace
     pd.set_option('display.width', 1200)  # These two lines so all columns are printed in output
