@@ -31,7 +31,8 @@ siqr : 124 - 471 MMK (semi interquartile range - middle 50% of values)
 g : 471 - 671 MMK, vg : 671 - 871 MMK, exc : 871 - 1071 MMK
 
 1st ML algorithm : Decision Tree Classifier - accuracy 37%
-
+2nd ML algorithm : Linear Support Vector Machine - 46.333%
+3rd ML algorithm : Logistic Regression - 50.66%
     """
     import pandas as pd
     import matplotlib.pyplot as plt
@@ -39,6 +40,8 @@ g : 471 - 671 MMK, vg : 671 - 871 MMK, exc : 871 - 1071 MMK
     from sklearn.tree import DecisionTreeClassifier
     from sklearn.model_selection import train_test_split
     from sklearn import metrics
+    from sklearn import svm
+    from sklearn.linear_model import LogisticRegression
 
     # Setting workspace
     pd.set_option('display.width', 1200)  # These two lines so all columns are printed in output
@@ -52,13 +55,13 @@ g : 471 - 671 MMK, vg : 671 - 871 MMK, exc : 871 - 1071 MMK
 
     gradelist = []
     for label in df5["Total"]:
-        if 0 <= label <= 124:
+        if 0 <= label < 124:
             gradelist.append("low")
-        elif 124 <= label <= 471:
+        elif 124 <= label < 471:
             gradelist.append("siqr")
-        elif 471 <= label <= 671:
+        elif 471 <= label < 671:
             gradelist.append("g")
-        elif 671 <= label <= 871:
+        elif 671 <= label < 871:
             gradelist.append("vg")
         elif 871 <= label <= 1071:
             gradelist.append("exc")
@@ -76,7 +79,9 @@ g : 471 - 671 MMK, vg : 671 - 871 MMK, exc : 871 - 1071 MMK
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
     # Creating the deploying the model
-    model = DecisionTreeClassifier()
+    # model = DecisionTreeClassifier()
+    # model = svm.SVC()
+    model = LogisticRegression(max_iter=200)
     model = model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
 
