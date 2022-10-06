@@ -1,51 +1,47 @@
 # supermarket-analysis readme.md 
 
 """
-What is a README File?
-In simple words, we can describe a README file as a guide that gives users a detailed description of a project you have worked on.
+This project was written as part of my (Nigel Cooksley) Python and Machine Learning training on an Institute Of Coding Skills Bootcamp. This Cloud Analytics and Data Science bootcamp was delivered by Edge Hill University, Liverpool, UK from June to September 2022. 
 
-It can also be described as documentation with guidelines on how to use a project. Usually it will have instructions on how to install and run the project.
+I chose this project from the 3 available projects as I wanted the challenge of some 'messy' raw data of a straightforward commercial situation. The role of a Data Scientist famously involves 80% data wrangling, which is preceived as the 'boring admin' before the real work begins. It is for me though, a large attraction to the profession! 
 
-It is essential for you as a developer to know how to document your project by writing a README because:
+The problem, the project solved was to predict the busiest day of an apparently fictitious supermarket in Burma in the first quarter of 2020 given only some sales figures from the first quarter of 2019 (but no figures for the reaminder of that year or previous years. 
 
-It is the first file a person will see when they encounter your project, so it should be fairly brief but detailed.
-It will make your project standout from a bunch of others. Also be sure your project is good too.
-It will help you focus on what your project needs to deliver and how.
-It will improve your writing skills, just as Friedrich Nietzsche said:
-A good writer possesses not only his own spirit but also the spirit of his friends.
+This project provided me with essential practice in data wrangling and the chance to apply other skills I had developed on the course (which consisted of 20 hours study per week for 4.5 months, weekly assessment deadlines and larger monthly assesssment deadlines). I also learnt (in the good example here) how 'messy' raw data can be and it really made me think about how and which features I should use to provide useful insight. This was just to enable me to eyeball the data. Further feature engineering was required to convert string fields into dummy integer variables for the application of Machine Learning algorithms. 
 
-While working on a project, keep in mind that you will need other developers to understand your code and what it does. So accompanying it with an extra guide will be really helpful.
+From feedback from tutors upon my presentation of my insights what makes my project stand out is that I preformed a significant amount of feature engineering as I focussed on decomposing the date field into days of the week and I also introduced further seasonality fields to represent weeks (which I standardised to classify 31 days of January and March into 28 days (4 weeks).
 
-For instance, my earlier shared example of my first project does not have a good README. And even though the project was amazing, it would've been hard for a beginner to understand exactly what was expected when they cloned my repo. Who knows maybe it could've even been a coded virus.
+Original Raw Data Features:
+Invoice 
+ID
+Branch
+City
+Customer type
+Gender
+Product line
+Unit price
+Quantity
+Tax 5%
+Total
+Date
+Time
+Payment
+cogs
+gross margin percentage
+gross income
+Rating
 
-With a project like this on GitHub, no matter how amazing it is, other devs won't be eager to work on it and try to figure it out without a good README.
+In addition to the original features, I created the following fields for exploratory analysis and machine learning requirements:
 
-Now, have a look at this project. Here, you are able to understand what the project does, what it entails, and how to get started if you need to use or want to contribute to the project.
+dow - day of week - a string variable extracted from original date 
+Season - which week in Q1 of 2019 - also a string variable extracted from original date 
 
-You see, that's how powerful a well written README is and how it can change you project.
+Dummy variables for ML:
 
-So, let's get started on how to write one for you too.
+dowsat, dowsun, dowmon, dowtue, dowwed, dowthu, dowfri
+aj1, aj2, aj3, aj4, f1, f2, f3, f4, m1, m2, m3, m4
 
-ADVERTISEMENT
-How to Write a Good README – a Step by Step Guide
-A very important thing to note is that there's not one right way to structure a good README. But there is one very wrong way, and that is to not include a README at all.
 
-From research and studying various README files, for sure there are some best practices that I have found. And that's what I will be sharing. As I usually tell my self:
-
-Every day is a learning day.
-
-So as you progress and advance in your career, you will develop your own ideas about what makes a good README and how to improve on it. Perhaps you'll even come up with your own unique guide.
-
-Before we get started, it is also important to note that when you're writing your project's README, it should be able to answer the what, why, and the how of the project.
-
-Here are some guide questions that will help you out:
-
-What was your motivation?
-Why did you build this project?
-What problem does it solve?
-What did you learn?
-What makes your project stand out?
-If your project has a lot of features, consider adding a "Features" section and listing them here.
 What to Include in your README
 1. Project's Title
 This is the name of the project. It describes the whole project in one sentence, and helps people understand what the main goal and aim of the project is.
