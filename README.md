@@ -1,4 +1,10 @@
-# supermarket-analysis readme.md 
+Title: 
+
+supermarket-analysis
+
+
+
+Project Description:  
 
 """
 This project was written as part of my (Nigel Cooksley) Python and Machine Learning training on an Institute Of Coding Skills Bootcamp. This Cloud Analytics and Data Science bootcamp was delivered by Edge Hill University, Liverpool, UK from June to September 2022. 
@@ -37,8 +43,54 @@ dow - day of week - a string variable extracted from original date
 Season - which week in Q1 of 2019 - also a string variable extracted from original date 
 
 Dummy variables for ML:
-
 dowsat, dowsun, dowmon, dowtue, dowwed, dowthu, dowfri
 aj1, aj2, aj3, aj4, f1, f2, f3, f4, m1, m2, m3, m4
+
+
+
+How to run / install the project:
+
+Your favourite Python IDE to run the .py file after having download the csv file. 
+
+
+
+How to use the project:
+
+Example of some good feature engineering 
+
+
+
+Credits:  
+Edge Hill University, Liverpool UK. Skills bootcamp in Cloud Computing and Data Analytics
+Kaggle.com for online data project collaboration 
+
+
+Licence:
+
+"""
+
+This is free software: you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version. It is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+the code.  If not, see <http://www.gnu.org/licenses/>.
+
+Author: Nigel Cooksley BEng PGCE
+
+Contact: njcooksley@live.co.uk
+LinkedIn Profile: www.linkedin.com/in/nigel-cooksley-bristol
+
+
+"""
+
+
+
+
+
+
 
 
