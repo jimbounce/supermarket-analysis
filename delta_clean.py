@@ -36,7 +36,7 @@ def main():
 
     import seaborn as sns
     import pandas as pd
-
+    import matplotlib.pyplot as plt
 
     # Setting workspace
     pd.set_option('display.width', 1200)  # These two lines so all columns are printed in output
@@ -46,15 +46,15 @@ def main():
     df = pd.read_csv("Supermarket Dataset.csv", header=0)
 
     # Describing the data
-    # print("\nNumber of rows and columns: ", df.shape, "\n")
     print("df...first and last 5 rows. \n", df)
     print("\n\ndf.describe()\n", df.describe())     # Basic statistical measures of each column
     # print("\n")
-    #print("Datatypes of each column:\n", df.dtypes)  # data types of each attribute
+    print("Datatypes of each column:\n", df.dtypes)  # data types of each attribute
 
     # Summing "Total" column for checking later
+    print("\n\n")
     sum_cols = df.sum(axis = 0)
-    print(sum_cols[9])
+    print("Total sales in time period (Sum of Total column) is ", sum_cols[9], "Myanmar Kyat")            # Total is 9th column
 
     # Totals of each column
     print("\n")
@@ -72,8 +72,6 @@ def main():
     # df = df.drop_duplicates()
     # print("counts after duplicate removal")
     # print(df.count())
-
-    # Checking for outliers
 
 
     # Features (Xi)
@@ -112,18 +110,21 @@ def main():
     # Sum all totals for each day and display dataframe now only 89 rows / 2 col
     df2 = df.groupby("Daynum", as_index=False)["Total"].sum()
     print("df2\n", df2)
-    print("type of df2", type(df2))    # pandas.core.series.Series
-    print("type of df ", type(df), "\n")     # whereas df is a :    pandas.core.frame.DataFrame
+
+    # Daily Totals Stats
+    print("df2 describe\n", df2.describe(), "\n")
 
     # Finding the best performing day
-    print("df2 describe\n", df2.describe(), "\n")
     print("\nmaxday is ")
     print(df2[df2.Total == df2.Total.max()])
+    print("\n\n")
 
 
     # Plotting total sales in each of 89 days (not for presentation)
-    import matplotlib.pyplot as plt
-    plt.figure()
+    fig = plt.figure()
+    man = plt.get_current_fig_manager()
+    man.set_window_title("New Title")
+    # no longer using plt.figure()
     plt.scatter(df2["Daynum"], df2["Total"])
     plt.title("Scatter plot")
     plt.xlabel("Day number")
@@ -151,14 +152,18 @@ def main():
         else:                   # daynum % 7 == 0
             dow = "Mon"
         dowlist.append(dow)
-    print(len(dowlist))     # still in 1000 world
+    print("\n\n")
+    print(" still in 1000 world: ", len(dowlist))     # still in 1000 world
+    print("\n\n")
 
     # Creating day of week column dataframe
     df["dow"] = dowlist
-    print(df)
+
+    # print(df)  # dow and Daynum cols added to df
+
     df3 = df.groupby("dow", as_index=False)["Total"].sum()
     print("\ndf3\n", df3)
-    import matplotlib.pyplot as plt
+
     plt.figure()
     plt.bar(df3["dow"], df3["Total"])
     plt.title("Comparing days of the week")
