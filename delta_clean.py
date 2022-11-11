@@ -37,6 +37,8 @@ def main():
     import seaborn as sns
     import pandas as pd
     import matplotlib.pyplot as plt
+    import warnings
+    warnings.filterwarnings("ignore")
 
     # Setting workspace
     pd.set_option('display.width', 1200)  # These two lines so all columns are printed in output
@@ -50,37 +52,32 @@ def main():
     print("\n\ndf.describe()\n", df.describe())     # Basic statistical measures of each column
     # print("\n")
     print("Datatypes of each column:\n", df.dtypes)  # data types of each attribute
+    # Features (Xi)
+    print("\n\nColumns as a list: \n", df.columns, '\n')  # column names as a list
 
-    # Summing "Total" column for checking later
-    print("\n\n")
-    sum_cols = df.sum(axis = 0)
-    print("Total sales in time period (Sum of Total column) is ", sum_cols[9], "Myanmar Kyat")            # Total is 9th column
-
-    # Totals of each column
-    print("\n")
-    #gender_counts = df["Gender"].value_counts();
-    #print('gender counts:', gender_counts)  # Ordered no. of occuraences of each value
+    print("###############################################################################################")
+    print("TIDYING DATA")
+    print("###############################################################################################")
 
     # Identifying number of unique values in each column
     # for col in df.columns:
-    #     print("Unique values of column", col, "are: ", df[col].nunique())
+    # print("Unique values of column", col, "are: ", df[col].nunique())
 
     # Checking for missing values
-    #print("\ndf.count():\n", df.count())   # Counts number of entries in each column
+    # print("\ndf.count():\n", df.count())   # Counts number of entries in each column
 
     # Checking for duplicate rows
     # df = df.drop_duplicates()
     # print("counts after duplicate removal")
     # print(df.count())
 
+    # Do 'tax 5%' and 'gross income' columns have the same values?
+    # print("equal?", df["Tax 5%"].equals(df["gross income"]))   # Suspecting equal columns
 
-    # Features (Xi)
-    #print("\n\nColumns as a list: \n", df.columns, '\n')  # column names as a list
+    print("###############################################################################################")
+    print("Re-formatting the Date column")
+    print("###############################################################################################")
 
-   # Do 'tax 5%' and 'gross income' columns have the same values?
-    #print("equal?", df["Tax 5%"].equals(df["gross income"]))   # Suspecting equal columns
-
-    # Re-formatting the "Date" column
     # Converting date to number 1-90
     daynum_list = []
     for date in df["Date"]:
@@ -107,6 +104,12 @@ def main():
     df["Daynum"] = daynum_list
     # print(df)
 
+
+    print("###############################################################################################")
+    print("EDA - Exploratory Data Analysis")
+    print("###############################################################################################")
+
+
     # Sum all totals for each day and display dataframe now only 89 rows / 2 col
     df2 = df.groupby("Daynum", as_index=False)["Total"].sum()
     print("df2\n", df2)
@@ -119,12 +122,21 @@ def main():
     print(df2[df2.Total == df2.Total.max()])
     print("\n\n")
 
+    # Summing "Total" column for checking later
+    print("\n\n")
+    sum_cols = df.sum(axis=0)
+    print("Total sales in time period (Sum of Total column) is ", sum_cols[9], "Myanmar Kyat")  # Total is 9th column
 
-    # Plotting total sales in each of 89 days (not for presentation)
-    fig = plt.figure()
-    man = plt.get_current_fig_manager()
-    man.set_window_title("New Title")
-    # no longer using plt.figure()
+    # Totals of each column
+    print("\n")
+    gender_counts = df["Gender"].value_counts();
+    print('gender counts:', gender_counts)  # Ordered no. of occuraences of each value
+
+    print("###############################################################################################")
+    print("Plot a scatter graph of 89 days showing no pattern - decide to deconstruct into days and weeks ")
+    print("###############################################################################################")
+
+    plt.figure()
     plt.scatter(df2["Daynum"], df2["Total"])
     plt.title("Scatter plot")
     plt.xlabel("Day number")
@@ -133,8 +145,10 @@ def main():
     plt.ylim([0, 7600])  ## Highest value of total is 1042.65
     plt.show()
 
-    # Arranging into days of the week total sales
-    # Categorizing day numbers into 7 days of the week (1st Jan 2019 was a Tues)
+    print("###############################################################################################")
+    print("Arranging into days of the week total sales")
+    print("###############################################################################################")
+        # Categorizing day numbers into 7 days of the week (1st Jan 2019 was a Tues)
     dowlist = []
     for daynum in daynum_list:
         if daynum % 7 == 1:
@@ -152,18 +166,17 @@ def main():
         else:                   # daynum % 7 == 0
             dow = "Mon"
         dowlist.append(dow)
-    print("\n\n")
-    print(" still in 1000 world: ", len(dowlist))     # still in 1000 world
-    print("\n\n")
+    print("\n")
+    print("Checking we still have 1000 rows: ", len(dowlist))     # still in 1000 world
+    print("\n")
 
-    # Creating day of week column dataframe
+    # Creating day of week column dataframe and check dataframe
     df["dow"] = dowlist
+    print(df)
 
-    # print(df)  # dow and Daynum cols added to df
-
+    # Show daily totals table and chart
     df3 = df.groupby("dow", as_index=False)["Total"].sum()
     print("\ndf3\n", df3)
-
     plt.figure()
     plt.bar(df3["dow"], df3["Total"])
     plt.title("Comparing days of the week")
@@ -173,7 +186,9 @@ def main():
     plt.ylim([0, 60000])  ## Highest value of total is 1042.65
     plt.show()
 
-    # Creating a 'week of the season' dataframe
+    print("###############################################################################################")
+    print("Creating a 'week of the season' dataframe")
+    print("###############################################################################################")
     seasonlist = []
     for daynum in daynum_list:
         if 1 < daynum <= 8:
@@ -218,9 +233,12 @@ def main():
     df4.iloc[9, 1] = df4.iloc[9, 1] * (7 / 8)
     df4.iloc[11, 1] = df4.iloc[11, 1] * (7 / 8)
 
-    print("\ndf4\n", df4)
+    # Checking changes to dataframe
+    # print("\ndf4\n", df4)
 
-    # Plotting weekly performance throughout the time period of 3 months
+    print("###############################################################################################")
+    print("Plotting weekly performance throughout the 3 month period")
+    print("###############################################################################################")
 
     plt.figure()
     plt.bar(df4["Season"], df4["Total"])
@@ -231,15 +249,22 @@ def main():
     plt.ylim([0, 40000])  ## Highest value of total is .....
     plt.show()
 
-    # # PairPlot to choose features
-
+    print("###############################################################################################")
+    print("PairPlot to choose features ")
+    print("###############################################################################################")
+    # PairPlot to choose features
+    # (pink chart shows that daynum, dow, and Season are dominant variables in determining Total sales)
     sns.pairplot(data=df[['Branch', 'City', 'Customer type', 'Gender', 'Product line', 'Total',
                             'Date', 'Payment', 'Daynum', 'dow', 'Season']],
                 hue='Total', dropna=True, height=3)
-    plt.show()
+    plt.show();
+
+
+    print("###############################################################################################")
+    print("Creating dummy variables for Machine Learning ")
+    print("###############################################################################################")
 
     # Adding 7 columns to 'numericize' days of the week eg. Sat = 1 0 0 0 0 0 0, Sun = 0 1 0 0 0 0 0, ...
-
     df5 = df[["dow", "Season", "Total"]]
 
     satlist = []
@@ -392,21 +417,8 @@ def main():
 
     print("df5 head\n ", df5.head(100))
 
-
-
+    # Exporting amended csv file for Machine Learning
     #df5.to_csv("DeltaML.csv")
-
-
-
-
-
-
-    # Feature correlation from line 227    (only daynum and total are numerical so can only measure their correlation
-    # df_CORR = df.loc[:, ['Total', 'Daynum']]
-    # corr_matrix = df_CORR.corr()
-    # print(corr_matrix)
-    # sns.heatmap(corr_matrix, annot=True)
-    # plt.show()
 
 
 
